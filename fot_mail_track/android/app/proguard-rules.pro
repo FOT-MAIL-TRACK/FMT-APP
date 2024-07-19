@@ -1,0 +1,2 @@
+-keep class org.mongodb.** { *; }
+-dontwarn org.mongodb.**

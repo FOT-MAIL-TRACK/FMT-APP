@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => QRScanner()),
+              MaterialPageRoute(builder: (context) => const QRscanner()),
             );
           },
           child: const Text('Scan QR Code'),

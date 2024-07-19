@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'mongo_service.dart';
+//import 'mongo_service.dart';
 
 class ProcessScannedData extends StatelessWidget {
   final String letterId;
@@ -15,7 +15,7 @@ class ProcessScannedData extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              await MongoService().updateTracker(letterId, 'Approved');
+              //await MongoService().updateTracker(letterId, 'Approved');
               Navigator.pop(context);
             },
             child: Text('Approve'),
@@ -47,8 +47,8 @@ class ProcessScannedData extends StatelessWidget {
             TextButton(
               child: Text('Submit'),
               onPressed: () async {
-                await MongoService().updateTracker(letterId, 'Rejected',
-                    reason: reasonController.text);
+                //   await MongoService().updateTracker(letterId, 'Rejected',
+                //       reason: reasonController.text);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

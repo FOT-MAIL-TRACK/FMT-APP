@@ -1,44 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class QRScanner extends StatefulWidget {
-  @override
-  _QRScannerState createState() => _QRScannerState();
-}
+const bgColor = Color(0xfffafafa);
 
-class _QRScannerState extends State<QRScanner> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
-
-  @override
-  void reassemble() {
-    super.reassemble();
-    controller?.resumeCamera();
-  }
+class QRscanner extends StatelessWidget {
+  const QRscanner({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: QRView(
-        key: qrKey,
-        onQRViewCreated: _onQRViewCreated,
+      backgroundColor: bgColor,
+      appBar: AppBar(),
+      body: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Place the QR Code in the Erea"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Scanning Will be Started Automatically")
+                ],
+              ),
+            ),
+            Expanded(
+                flex: 4,
+                child: Container(
+                  color: Colors.green,
+                )),
+            Expanded(
+                child: Container(
+              color: Colors.amber,
+            )),
+          ],
+        ),
       ),
     );
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      // Handle scanned data here
-      // Redirect to appropriate screen with scanned data
-    });
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
   }
 }

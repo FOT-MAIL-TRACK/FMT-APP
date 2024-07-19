@@ -26,10 +26,26 @@ android {
     namespace "com.example.fot_mail_track"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+    
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+     packagingOptions {
+        // Exclude specific files that are causing conflicts
+        exclude 'META-INF/native-image/org.mongodb/bson/native-image.properties'
     }
 
     kotlinOptions {
@@ -45,7 +61,7 @@ android {
         applicationId "com.example.fot_mail_track"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 20
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -57,6 +73,17 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+        release {
+            // Enables code shrinking, obfuscation, and optimization for release builds
+            minifyEnabled true
+            // Enable ProGuard rules from the specified file
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // Enable ProGuard for debug builds (optional)
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
@@ -64,4 +91,17 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'org.mongodb:mongodb-driver-sync:5.1.2'
+    implementation "org.mongodb:mongodb-driver-kotlin-coroutine:5.1.2"
+    //new
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+     implementation('org.mongodb:bson-record-codec:5.1.2') {
+        exclude group: 'org.mongodb', module: 'bson'
+    }
+    implementation 'org.mongodb:bson:4.2.3'
+}
