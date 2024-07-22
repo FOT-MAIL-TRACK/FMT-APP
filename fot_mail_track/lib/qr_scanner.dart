@@ -9,7 +9,9 @@ class QRscanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("QR Scanner"),
+      ),
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(16),
