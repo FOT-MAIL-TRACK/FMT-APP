@@ -4,7 +4,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:toast/toast.dart';
 
 class ResultScreen extends StatefulWidget {
-  const ResultScreen({super.key});
+  final String? result;
+  const ResultScreen({required this.result, super.key});
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -14,10 +15,6 @@ class _ResultScreenState extends State<ResultScreen> {
   String? _result;
 
   Toast toast = Toast();
-
-  void setResult(String result) {
-    setState(() => _result = result);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +41,9 @@ class _ResultScreenState extends State<ResultScreen> {
               version: QrVersions.auto,
             ),
 
-            const Text(
-              "Scanned Results",
-              style: TextStyle(
+            Text(
+              widget.result ?? 'No result',
+              style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,

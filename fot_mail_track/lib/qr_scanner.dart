@@ -4,11 +4,18 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 const bgColor = Color(0xfffafafa);
 
-class QRscanner extends StatelessWidget {
-  QRscanner({required this.setResult, super.key});
+class QRscanner extends StatefulWidget {
+  const QRscanner({super.key});
 
-  final Function setResult;
+  @override
+  State<QRscanner> createState() => _QRscannerState();
+}
+
+class _QRscannerState extends State<QRscanner> {
   final MobileScannerController controller = MobileScannerController();
+
+  String? result = "";
+
   bool isScanCompleted = false;
 
   void closeScreen() {
@@ -55,14 +62,16 @@ class QRscanner extends StatelessWidget {
                     final barcode = barcodes.first;
 
                     if (barcode.rawValue != null) {
-                      setResult(barcode.rawValue);
+                      result = barcode.rawValue;
 
                       await controller
                           .stop()
                           .then((value) => controller.dispose())
                           .then((value) => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => const ResultScreen()),
+                                    builder: (context) => ResultScreen(
+                                          result: result,
+                                        )),
                               ));
                     }
                   },
