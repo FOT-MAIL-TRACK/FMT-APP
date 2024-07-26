@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/qr_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:toast/toast.dart';
 
 class ResultScreen extends StatefulWidget {
   final String? result;
@@ -12,9 +13,26 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  String? _result;
+  void setFields(String? result) {
+    if (result == null || result == "") {
+      result = "NO VALUE";
+    } else {
+      // Step 2: Decode the JSON string
+      Map<String, dynamic> jsonData = json.decode(result);
 
-  Toast toast = Toast();
+      // Step 3: Extract values
+      String? title = jsonData['title'];
+      //ToDo Do Rest from here
+      print("TITLE IS : ");
+      print(title);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setFields(widget.result);
+  }
 
   @override
   Widget build(BuildContext context) {
