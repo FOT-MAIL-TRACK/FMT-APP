@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => QRscanner()),
+                  MaterialPageRoute(builder: (context) => const QRscanner()),
                 );
               },
               child: const Text('Scan QR Code'),
