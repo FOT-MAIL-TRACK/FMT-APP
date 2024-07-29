@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/approve_screen.dart';
 import 'package:fot_mail_track/qr_scanner.dart';
+import 'package:fot_mail_track/reject_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -126,7 +127,16 @@ class _ResultScreenState extends State<ResultScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 218, 28, 28),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RejectScreen(
+                                sender: sender,
+                                reciever: receiver,
+                              )),
+                    );
+                  },
                   child: const Text(
                     "Reject",
                     style: TextStyle(
