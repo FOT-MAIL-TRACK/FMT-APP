@@ -10,25 +10,85 @@ class RejectScreen extends StatefulWidget {
 }
 
 class _RejectScreenState extends State<RejectScreen> {
+  late TextEditingController _controller;
+  Color _borderColor = Colors.grey;
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Letter Rejected"),
       ),
-      body: const Column(
+      body: Column(
         children: [
-          Text("Letter Rejected"),
-          SizedBox(
+          const Text("Letter Rejected"),
+          const SizedBox(
             height: 20,
           ),
-          Text("Reason For Rejection"),
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Reason',
+          const Text("Reason For Rejection"),
+          Container(
+            margin: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
+                  borderSide: BorderSide(color: _borderColor),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: _borderColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: _borderColor),
+                ),
+                labelText: 'Reason',
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 50.0, horizontal: 15.0),
+              ),
             ),
           ),
+          ElevatedButton(
+              onPressed: () async {
+                String reason = _controller.text;
+                if (reason != "") {
+                  //Copied Code
+                  await showDialog<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Thanks!'),
+                        content: Text(
+                            'You typed "$reason", which has length ${reason.characters.length}.'),
+                      );
+                    },
+                  );
+                } else {
+                  setState(() async {
+                    _borderColor = Colors.red;
+                    await showDialog<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const AlertDialog(
+                          // title: Text('Resason!'),
+                          content: Text('Please Enter Reason for Rejection'),
+                        );
+                      },
+                    );
+                  });
+                }
+              },
+              child: const Text("Submit")),
         ],
       ),
     );
