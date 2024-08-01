@@ -12,12 +12,17 @@ require('dotenv').config();
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-    // Log the received email for debugging
-  console.log("Received email:", email);
+  console.log('Request body:', req.body); 
+  console.log("Login request received with email:", email, "and password:", password);
+  // Log model and collection details
+  console.log('Mongoose model name:', User.modelName);
+  console.log('Collection name:', User.collection.collectionName);
+
 
   try {
     // Check if the user exists
-    const user = await User.findOne({ email: new RegExp('^' + email + '$', 'i') });
+    const user = await User.findOne({ email });
+    console.log("User found:", user);
     if (!user) return res.status(400).json({ message: 'Invalid email' });
 
     // Compare passwords
@@ -34,5 +39,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 module.exports = router;
