@@ -16,6 +16,33 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    username: {
+    type: String,
+    unique: true,
+    sparse: true, // Allows multiple documents without a username
+    default: null // Ensure it defaults to null
+  },
+    name: {
+    type: String,
+    sparse: true, // Allows multiple documents without a username
+    default: null // Ensure it defaults to null
+  },
+  faculty: {
+    type: String,
+    sparse: true, // Allows multiple documents without a username
+    default: null // Ensure it defaults to null
+  },
+  department: {
+    type: String,
+    sparse: true, // Allows multiple documents without a username
+    default: null // Ensure it defaults to null
+  },
+  registrationNumber: {
+    type: String,
+    default: null // Ensure it defaults to null
+  },
+  
+
    
 });
 const User = mongoose.model("User", UserSchema);
