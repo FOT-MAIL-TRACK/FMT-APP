@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fot_mail_track/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,24 +11,36 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController usernameController;
   late TextEditingController passwordController;
+  final AuthService _authService = AuthService();
   @override
   void initState() {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Login"),
-//       ),
-//       body: const Column(
-//         children: [],
-//       ),
-//     );
-//   }
-// }
+
+  void _login() async {
+    final email = usernameController.text;
+    final password = passwordController.text;
+
+    try {
+      final response = await _authService.login(email, password);
+      // Handle the response, e.g., navigate to another screen or show a message
+      // ignore: avoid_print
+      print('Login successful');
+    } catch (e) {
+      // Handle the error, e.g., show an error message
+      // ignore: avoid_print
+      print('Login failed: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   // This widget is the root of your application.
   @override

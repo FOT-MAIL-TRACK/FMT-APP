@@ -45,9 +45,9 @@ const UserSchema = new mongoose.Schema({
 
    
 });
-const User = mongoose.model("User", UserSchema);
-console.log("User is : ",  User.email);
-console.log("User model created with schema:", User.schema.obj);
+   const User = mongoose.model("User", UserSchema);
+// console.log("User is : ",  User.email);
+// console.log("User model created with schema:", User.schema.obj);
 
 module.exports = User;
 
