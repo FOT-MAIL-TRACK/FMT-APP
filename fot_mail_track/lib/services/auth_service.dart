@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String baseUrl = 'http://localhost:5000/api/auth';
+  final String baseUrl = 'http://192.168.100.170:5000/api/auth';
 
   Future<void> login(String email, String password) async {
     final response = await http.post(
