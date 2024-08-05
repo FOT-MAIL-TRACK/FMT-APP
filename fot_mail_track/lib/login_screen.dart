@@ -100,12 +100,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService =
+      AuthService(); // Create an instance of AuthService
 
   void _handleLogin() async {
     String email = _emailController.text;
     String password = _passwordController.text;
     try {
-      await login(email, password);
+      await _authService.login(email, password); // Use the AuthService instance
     } catch (e) {
       print('Login error: $e');
     }
