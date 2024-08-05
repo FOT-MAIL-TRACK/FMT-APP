@@ -90,6 +90,7 @@
 
 //New Code
 import 'package:flutter/material.dart';
+import 'package:fot_mail_track/home_screen.dart';
 import 'package:fot_mail_track/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -108,6 +109,13 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = _passwordController.text;
     try {
       await _authService.login(email, password); // Use the AuthService instance
+
+      // If login is successful, navigate to HomePage
+      Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
     } catch (e) {
       print('Login error: $e');
     }
