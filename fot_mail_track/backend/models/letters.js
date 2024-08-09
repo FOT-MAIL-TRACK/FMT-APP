@@ -1,57 +1,49 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const validator = require('validator');
 
-
-const UserSchema = new mongoose.Schema({
+const LetterSchema = new mongoose.Schema({
  
-    email:{
+    title:{
         type: String,
         required: true,
-        unique: true,
         trim: true,
         
     },
-    password: {
+    content: {
         type: String,
         required: true,
     },
-    username: {
-    type: String,
-    unique: true,
+    sender: {
+    type: Object,
     sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
-    name: {
-    type: String,
+    receiver: {
+    type: Object,
     sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
-  faculty: {
-    type: String,
+  authorities: {
+    type: Array,
     sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
-  department: {
-    type: String,
+  currentHolder: {
+    type: Object,
     sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
-  registrationNumber: {
+  qrCode: {
     type: String,
+    default: null // Ensure it defaults to null
+  },
+  trackingLog: {
+    type: Array,
     default: null // Ensure it defaults to null
   },
   
-
-   
+  
 });
-   const User = mongoose.model("User", UserSchema);
 
+const Letter = mongoose.model("Letter", LetterSchema);
 
-
-
-   // console.log("User is : ",  User.email);
-// console.log("User model created with schema:", User.schema.obj);
-
-module.exports = User;
-
+module.exports = Letter;
