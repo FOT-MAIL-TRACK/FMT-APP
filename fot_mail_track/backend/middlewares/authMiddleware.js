@@ -26,4 +26,4 @@ function tracking(req, res, next) {
   }
 }
 
-module.exports = auth , tracking;
+module.exports = auth;
