@@ -61,6 +61,9 @@ require('dotenv').config();
 //     res.status(500).json({ message: 'Server error' });
 //   }
 // });
+//________________________________________________________________
+
+
 
 // Login route
 router.post('/login', async (req, res) => {
@@ -92,11 +95,12 @@ router.post('/login', async (req, res) => {
 //Create Tracking routers
 
 router.post('/tracking', async (req, res) => {
-  const { title } = req.body; 
+  const { _id } = req.body; 
 
     try {
     // Check if the letter exists
-    const letter = await Letter.findOne({ title });
+    const letter = await Letter.findOne({ _id });
+    if (letter) return res.status(200).json({ message: 'Letter Found' });
     if (!letter) return res.status(400).json({ message: 'Invalid Letter' });
 
     
