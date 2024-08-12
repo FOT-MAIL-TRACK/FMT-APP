@@ -100,7 +100,6 @@ router.post('/tracking', async (req, res) => {
     try {
     // Check if the letter exists
     const letter = await Letter.findOne({ _id });
-    if (letter) return res.status(200).json({ message: 'Letter Found' });
     if (!letter) return res.status(400).json({ message: 'Invalid Letter' });
 
     
@@ -109,7 +108,7 @@ router.post('/tracking', async (req, res) => {
     const token = jwt.sign({ id: letter._id, title: letter.title }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send response
-    res.json({ token, letter: { id: letter._id, title: letter.title } });
+    res.json({ token, letter: { id: letter._id, title: letter.title, receiver: letter.receiver , status:letter.status, currentHolder: letter.currentHolder , trackingLog:letter.trackingLog  } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
