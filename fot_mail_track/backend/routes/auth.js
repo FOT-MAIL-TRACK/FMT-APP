@@ -95,20 +95,26 @@ router.post('/login', async (req, res) => {
 //Create Tracking routers
 
 router.post('/tracking', async (req, res) => {
-  const { _id } = req.body; 
+  const { registrationNumber } = req.body; 
 
     try {
     // Check if the letter exists
-    const letter = await Letter.findOne({ _id });
+const letter = await Letter.find({
+  $or: [
+    { 'sender.registrationNumber': req.body.registrationNumber },
+    { 'receiver.registrationNumber': req.body.registrationNumber }
+  ]
+});
+    if (letter) return res.status(200).json({ message: `${letter.length}` });
     if (!letter) return res.status(400).json({ message: 'Invalid Letter' });
 
     
 
     // Generate JWT
-    const token = jwt.sign({ id: letter._id, title: letter.title }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: letter._id, title: letter.title , sender:letter.sender  }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send response
-    res.json({ token, letter: { id: letter._id, title: letter.title, receiver: letter.receiver , status:letter.status, currentHolder: letter.currentHolder , trackingLog:letter.trackingLog  } });
+    res.json({ token, letter: { id: letter._id, title: letter.title, sender:letter.sender, receiver: letter.receiver , status:letter.status, currentHolder: letter.currentHolder , trackingLog:letter.trackingLog  }});
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
