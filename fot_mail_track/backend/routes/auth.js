@@ -105,19 +105,46 @@ const letter = await Letter.find({
     { 'receiver.registrationNumber': req.body.registrationNumber }
   ]
 });
-    if (letter) return res.status(200).json({ message: `${letter.length}` });
     if (!letter) return res.status(400).json({ message: 'Invalid Letter' });
-
-    
 
     // Generate JWT
     const token = jwt.sign({ id: letter._id, title: letter.title , sender:letter.sender  }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send response
-    res.json({ token, letter: { id: letter._id, title: letter.title, sender:letter.sender, receiver: letter.receiver , status:letter.status, currentHolder: letter.currentHolder , trackingLog:letter.trackingLog  }});
+    res.json({ token, letter});
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error On tracking route' });
+  }
+
+})
+
+//Create Letter Status Update routes
+
+router.patch('/statusUpdate', async(req , res) =>
+{
+
+  const {_id , currentHolder} = req.body;
+
+  try {
+  const letter = await Letter.findOne( {_id} );
+  if (!letter) return res.status(400).json({ message: 'Invalid Letter' });
+
+  const updates = {
+    $push: { currentHolder: letter.currentHolder }
+  };
+  const query = { _id: letter._id };
+  let result = await Letter.updateOne(query, updates);
+  
+  const token = jwt.sign({ id: letter._id, title: letter.title , sender:letter.sender  }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  
+  
+  
+  res.json({ token, letter:{ id: letter._id, title: letter.title , sender:letter.sender} });
+  }
+  catch(err){
+    console.error(err);
+    res.status(500).json({ message: 'Server error on statusUpdate route' });
   }
 
 })
