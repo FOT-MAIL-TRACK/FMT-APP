@@ -1,93 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class LoginScreen extends StatefulWidget {
-//   const LoginScreen({super.key});
-
-//   @override
-//   State<LoginScreen> createState() => _LoginScreenState();
-// }
-
-// class _LoginScreenState extends State<LoginScreen> {
-//   late TextEditingController usernameController;
-//   late TextEditingController passwordController;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     usernameController = TextEditingController();
-//     passwordController = TextEditingController();
-//   }
-
-//   // @override
-//   // void dispose() {
-//   //   usernameController.dispose();
-//   //   passwordController.dispose();
-//   //   super.dispose();
-//   // }
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         theme: ThemeData(
-//           primarySwatch: Colors.blue,
-//         ),
-//         home: Scaffold(
-//             appBar: AppBar(
-//               title: const Text('Login Screen'),
-//             ),
-//             body: Center(
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: <Widget>[
-//                   Container(
-//                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 70),
-//                     child: const FlutterLogo(
-//                       size: 40,
-//                     ),
-//                   ),
-//                   Container(
-//                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-//                     child: TextField(
-//                       controller: usernameController,
-//                       decoration: InputDecoration(
-//                         border: OutlineInputBorder(
-//                           borderRadius: BorderRadius.circular(90.0),
-//                         ),
-//                         labelText: 'Email',
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-//                     child: TextField(
-//                       controller: passwordController,
-//                       obscureText: true,
-//                       decoration: InputDecoration(
-//                         border: OutlineInputBorder(
-//                           borderRadius: BorderRadius.circular(90.0),
-//                         ),
-//                         labelText: 'Password',
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                       height: 80,
-//                       padding: const EdgeInsets.all(20),
-//                       child: ElevatedButton(
-//                         style: ElevatedButton.styleFrom(
-//                           minimumSize: const Size.fromHeight(50),
-//                         ),
-//                         onPressed: () {},
-//                         child: const Text('Log In'),
-//                       )),
-//                 ],
-//               ),
-//             )));
-//   }
-// }
-
 //New Code
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/home_screen.dart';
@@ -117,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } catch (e) {
+      // ignore: avoid_print
       print('Login error: $e');
     }
   }
@@ -124,24 +35,69 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(
+        title: const Text(
+          'FOT MAIL TRACK',
+          style: TextStyle(
+            fontFamily: 'EduVICWANTBeginner',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 17, 0, 246),
+          ),
+        ),
+        backgroundColor: const Color.fromARGB(31, 70, 41, 41),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Column(
+              children: [
+                Image.asset(
+                  'assets/fmt.png',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
             ),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
               obscureText: true,
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _handleLogin,
-              child: const Text('Login'),
+            SizedBox(
+              width: 200,
+              child: FilledButton(
+                onPressed: _handleLogin,
+                child: const Text('Login'),
+              ),
             ),
           ],
         ),
