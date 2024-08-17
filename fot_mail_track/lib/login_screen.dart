@@ -49,57 +49,62 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              children: [
-                Image.asset(
-                  'assets/fmt.png',
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: [
+                    Image.asset(
+                      'assets/fmt.png',
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
                   width: 200,
-                  height: 200,
-                  fit: BoxFit.cover,
+                  child: FilledButton(
+                    onPressed: _handleLogin,
+                    child: const Text('Login'),
+                  ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 200,
-              child: FilledButton(
-                onPressed: _handleLogin,
-                child: const Text('Login'),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
