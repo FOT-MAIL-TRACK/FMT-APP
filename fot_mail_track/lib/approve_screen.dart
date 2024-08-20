@@ -21,7 +21,7 @@ class _ApproveScreenState extends State<ApproveScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Results Screen"),
+        title: const Text("Approved"),
       ),
       body: Column(
         children: [Text(widget.title.toString())],

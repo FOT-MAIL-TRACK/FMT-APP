@@ -31,6 +31,7 @@ class _RejectScreenState extends State<RejectScreen> {
         title: const Text("Letter Rejected"),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text("Letter Rejected"),
           const SizedBox(

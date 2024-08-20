@@ -95,29 +95,25 @@ router.post('/login', async (req, res) => {
 //Create Tracking routers
 
 router.post('/tracking', async (req, res) => {
-  const { registrationNumber } = req.body; 
+  const { registrationNumber } = req.body;
 
-    try {
-    // Check if the letter exists
-const letter = await Letter.find({
-  $or: [
-    { 'sender.registrationNumber': req.body.registrationNumber },
-    { 'receiver.registrationNumber': req.body.registrationNumber }
-  ]
-});
-    if (!letter) return res.status(400).json({ message: 'Invalid Letter' });
+  try {
+    const letters = await Letter.find({
+      $or: [
+        { 'sender.registrationNumber': registrationNumber },
+        { 'receiver.registrationNumber': registrationNumber }
+      ]
+    });
 
-    // Generate JWT
-    const token = jwt.sign({ id: letter._id, title: letter.title , sender:letter.sender  }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    if (letters.length === 0) return res.status(400).json({ message: 'Invalid Letter' });
 
-    // Send response
-    res.json({ token, letter});
+    
+    res.json(letters); 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error On tracking route' });
+    res.status(500).json({ message: 'Server error on tracking route' });
   }
-
-})
+});
 
 //Create Letter Status Update routes
 
