@@ -18,7 +18,8 @@ class _StatusScreenState extends State<StatusScreen> {
           .fetchLetters(regnumber); // Use the AuthService instance
 
       // If login is successful, Print Success
-      print("Success Hutto");
+      // ignore: avoid_print
+      print("Success");
     } catch (e) {
       // ignore: avoid_print
       print('Login error: $e');

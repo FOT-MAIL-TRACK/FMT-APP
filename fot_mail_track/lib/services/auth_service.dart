@@ -31,7 +31,7 @@ class AuthService {
           body: jsonEncode({"registrationNumber": registrationNumber}));
 
       // ignore: avoid_print
-      print("Responce is $response");
+      print("Responce is ${response.body}");
 
       if (response.statusCode == 200) {
         // setState(() {
