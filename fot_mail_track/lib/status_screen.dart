@@ -19,7 +19,8 @@ class _StatusScreenState extends State<StatusScreen> {
 
       // If login is successful, Print Success
       // ignore: avoid_print
-      print("Success");
+
+      print("Success  ${_authService.letters[0]['_id']}");
     } catch (e) {
       // ignore: avoid_print
       print('Login error: $e');

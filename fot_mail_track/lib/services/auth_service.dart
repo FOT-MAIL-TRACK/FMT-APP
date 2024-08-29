@@ -8,6 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
   final String baseUrl = 'http://192.168.100.170:5000/api/auth';
 
+  // Declare the _letters list to store fetched letter data
+  List<Map<String, dynamic>> _letters = [];
+
+  // Getter to access the letters outside of this class
+  List<Map<String, dynamic>> get letters => _letters;
+
   Future<void> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
@@ -31,14 +37,13 @@ class AuthService {
           body: jsonEncode({"registrationNumber": registrationNumber}));
 
       // ignore: avoid_print
-      print("Responce is ${response.body}");
+      print("Responce is ${response.body} ");
 
       if (response.statusCode == 200) {
-        // setState(() {
-        //   letters = List<Map<String, dynamic>>.from(json.decode(response.body));
-        //   // ignore: avoid_print
-        //   print("Inside if, Responce is $response");
-        // });
+        final List<dynamic> parsedData = jsonDecode(response.body);
+        _letters = parsedData
+            .map((letter) => Map<String, dynamic>.from(letter))
+            .toList();
       } else {
         // ignore: avoid_print
         print("Failed to fetch letters: ${response.body}");
