@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+
+    environment {
+        PACKAGE_NAME = credentials('PACKAGE_NAME')  // Package name stored in Jenkins Credentials
+        PLAY_STORE_CREDENTIALS = credentials('PLAY_STORE_SERVICE_ACCOUNT')  // Google Play service account JSON credentials
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git url: 'https://github.com/FOT-MAIL-TRACK/FMT-APP', branch: 'main'
+            }
+        }
+
+        stage('Set up Flutter Environment') {
+            steps {
+                sh 'flutter --version'  // Check if Flutter is installed
+                sh 'flutter pub get'  // Install Flutter dependencies
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                sh 'flutter test'  // Run unit tests
+            }
+        }
+
+        stage('Build APK') {
+            steps {
+                sh 'flutter build apk --release'  // Build release APK
+            }
+        }
+
+        stage('Set up Fastlane for Play Store Deployment') {
+            steps {
+                sh 'echo "${PLAY_STORE_CREDENTIALS}" > $HOME/play-store-credentials.json'  // Create credentials file from Jenkins secret
+                sh '''
+                  sudo apt-get update
+                  sudo apt-get install ruby ruby-dev build-essential -y
+                  sudo gem install fastlane -NV
+                '''  // Install Fastlane
+            }
+        }
+
+        stage('Deploy to Play Store') {
+            steps {
+                sh '''
+                  fastlane supply --apk build/app/outputs/flutter-apk/app-release.apk \
+                  --package_name "${PACKAGE_NAME}" \
+                  --json_key $HOME/play-store-credentials.json \
+                  --track production
+                '''  // Deploy to the Play Store
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'APK successfully deployed to Google Play Store!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
