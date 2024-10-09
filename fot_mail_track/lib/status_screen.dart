@@ -23,7 +23,7 @@ class _StatusScreenState extends State<StatusScreen> {
       print("Success  ${_authService.letters[0]['_id']}");
     } catch (e) {
       // ignore: avoid_print
-      print('Login error: $e');
+      print('Letter Error : $e');
     }
   }
 
@@ -37,7 +37,7 @@ class _StatusScreenState extends State<StatusScreen> {
         children: [
           ElevatedButton(
               onPressed: _onTrackingBtnPressed,
-              child: const Text("Obapan Maawa"))
+              child: const Text("Show status on terminal"))
         ],
       ),
     );
