@@ -30,7 +30,7 @@ class AuthService {
   }
   //Letter show Path
 
-  Future<void> fetchLetters(String registrationNumber) async {
+  Future<List<dynamic>> fetchLetters(String registrationNumber) async {
     try {
       final response = await http.post(Uri.parse('$baseUrl/tracking'),
           headers: {"Content-Type": "application/json"},
@@ -44,13 +44,16 @@ class AuthService {
         _letters = parsedData
             .map((letter) => Map<String, dynamic>.from(letter))
             .toList();
+        return _letters;
       } else {
         // ignore: avoid_print
         print("Failed to fetch letters: ${response.body}");
+        return [];
       }
     } catch (err) {
       // ignore: avoid_print
       print("ERROR IS $err");
     }
+    return [];
   }
 }

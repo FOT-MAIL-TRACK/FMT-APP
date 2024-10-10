@@ -10,6 +10,7 @@ class StatusScreen extends StatefulWidget {
 
 class _StatusScreenState extends State<StatusScreen> {
   final AuthService _authService = AuthService();
+  List<dynamic> pData = [];
   void _onTrackingBtnPressed() async {
     String regnumber = "E-2";
 
@@ -20,7 +21,7 @@ class _StatusScreenState extends State<StatusScreen> {
       // If login is successful, Print Success
       // ignore: avoid_print
 
-      print("Success  ${_authService.letters[0]['_id']}");
+      print("Success  ${pData[0]['_id']}");
     } catch (e) {
       // ignore: avoid_print
       print('Letter Error : $e');
@@ -38,17 +39,27 @@ class _StatusScreenState extends State<StatusScreen> {
           ElevatedButton(
               onPressed: _onTrackingBtnPressed,
               child: const Text("Show status on terminal")),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _authService.letters.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  leading: _authService.letters[index]['_id'],
-                  title: Text("${_authService.letters[index]['title']}"),
-                );
-              },
-            ),
-          )
+          FutureBuilder(
+              future: _authService.fetchLetters("E-2"),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  pData = snapshot.data;
+
+                  return Expanded(
+                    child: ListView.builder(
+                        itemCount: pData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text("${pData[index]['_id']}"),
+                          );
+                        }),
+                  );
+                }
+              })
         ],
       ),
     );
