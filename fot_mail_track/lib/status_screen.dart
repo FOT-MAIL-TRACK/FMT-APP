@@ -37,7 +37,18 @@ class _StatusScreenState extends State<StatusScreen> {
         children: [
           ElevatedButton(
               onPressed: _onTrackingBtnPressed,
-              child: const Text("Show status on terminal"))
+              child: const Text("Show status on terminal")),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _authService.letters.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  leading: _authService.letters[index]['_id'],
+                  title: Text("${_authService.letters[index]['title']}"),
+                );
+              },
+            ),
+          )
         ],
       ),
     );
