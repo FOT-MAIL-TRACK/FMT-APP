@@ -18,6 +18,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
    console.log('Request body:', req.body);
+   
   // console.log("Login request received with email:", email);
 
   try {
@@ -32,8 +33,12 @@ router.post('/login', async (req, res) => {
     // Generate JWT
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+    console.log(' Role is ' + user.role);
+    console.log(' ID is ' + user._id);
+    console.log('User email:', user.email);
     // Send response
     res.json({ token, user: { id: user._id, email: user.email, role: user.role } });
+    
   } catch (err) {
     console.error( "Error is " + err);
     res.status(500).json({ message: 'Server error' });

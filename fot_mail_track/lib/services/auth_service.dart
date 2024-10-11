@@ -14,6 +14,7 @@ class AuthService {
   // Getter to access the letters outside of this class
   List<Map<String, dynamic>> get letters => _letters;
 
+  //Login
   Future<void> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
@@ -24,13 +25,24 @@ class AuthService {
     if (response.statusCode == 200) {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('auth_token', jsonDecode(response.body)['token']);
+
+      // Parse the response body to extract token, user id, and role
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      final String token = responseData['token'];
+      final String userId = responseData['user']['id'];
+      final String userRole = responseData['user']['role'];
+
+      // Store token, userId, and userRole in SharedPreferences
+      prefs.setString('auth_token', token);
+      prefs.setString('user_id', userId);
+      prefs.setString('user_role', userRole);
     } else {
       throw Exception('Failed to login $Exception');
     }
   }
   //Letter show Path
 
-  Future<List<dynamic>> fetchLetters(String registrationNumber) async {
+  Future<List<dynamic>> fetchLetters(String? registrationNumber) async {
     try {
       final response = await http.post(Uri.parse('$baseUrl/tracking'),
           headers: {"Content-Type": "application/json"},

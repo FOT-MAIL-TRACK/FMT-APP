@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/services/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StatusScreen extends StatefulWidget {
   const StatusScreen({super.key});
@@ -11,12 +12,30 @@ class StatusScreen extends StatefulWidget {
 class _StatusScreenState extends State<StatusScreen> {
   final AuthService _authService = AuthService();
   List<dynamic> pData = [];
-  void _onTrackingBtnPressed() async {
-    String regnumber = "E-2";
+  String? userId;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId(); // Load the userId when the screen is initialized
+  }
+
+  Future<void> _loadUserId() async {
+    userId = await getUserInfo();
+    setState(() {}); // Update the UI after loading userId
+  }
+
+  Future<String?> getUserInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? userId = prefs.getString('user_id');
+    final String? userRole = prefs.getString('user_role');
+
+    return userId;
+  }
+
+  void _onTrackingBtnPressed() async {
     try {
-      await _authService
-          .fetchLetters(regnumber); // Use the AuthService instance
+      await _authService.fetchLetters(userId); // Use the AuthService instance
 
       // If login is successful, Print Success
       // ignore: avoid_print
@@ -40,7 +59,7 @@ class _StatusScreenState extends State<StatusScreen> {
               onPressed: _onTrackingBtnPressed,
               child: const Text("Show status on terminal")),
           FutureBuilder(
-              future: _authService.fetchLetters("E-2"),
+              future: _authService.fetchLetters(userId),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(

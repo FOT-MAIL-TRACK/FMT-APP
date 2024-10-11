@@ -27,6 +27,11 @@ const UserSchema = new mongoose.Schema({
     sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
+  role: {
+    type: String,
+    sparse: true, // Allows multiple documents without a username
+    default: null // Ensure it defaults to null
+  },
   faculty: {
     type: String,
     sparse: true, // Allows multiple documents without a username
