@@ -12,7 +12,7 @@ class StatusScreen extends StatefulWidget {
 class _StatusScreenState extends State<StatusScreen> {
   final AuthService _authService = AuthService();
   List<dynamic> pData = [];
-  String? userId;
+  String? userRegNo;
 
   @override
   void initState() {
@@ -21,21 +21,23 @@ class _StatusScreenState extends State<StatusScreen> {
   }
 
   Future<void> _loadUserId() async {
-    userId = await getUserInfo();
+    userRegNo = await getUserInfo();
     setState(() {}); // Update the UI after loading userId
   }
 
   Future<String?> getUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? userId = prefs.getString('user_id');
-    final String? userRole = prefs.getString('user_role');
-
-    return userId;
+    // final String? userId = prefs.getString('user_id');
+    final String? userRegNo = prefs.getString('user_Regno');
+    // final String? userRole = prefs.getString('user_role');
+    print("Reg No is " + userRegNo.toString());
+    return userRegNo;
   }
 
   void _onTrackingBtnPressed() async {
     try {
-      await _authService.fetchLetters(userId); // Use the AuthService instance
+      await _authService
+          .fetchLetters(userRegNo.toString()); // Use the AuthService instance
 
       // If login is successful, Print Success
       // ignore: avoid_print
@@ -59,7 +61,7 @@ class _StatusScreenState extends State<StatusScreen> {
               onPressed: _onTrackingBtnPressed,
               child: const Text("Show status on terminal")),
           FutureBuilder(
-              future: _authService.fetchLetters(userId),
+              future: _authService.fetchLetters(userRegNo.toString()),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(

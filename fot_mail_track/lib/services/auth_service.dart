@@ -31,11 +31,13 @@ class AuthService {
       final String token = responseData['token'];
       final String userId = responseData['user']['id'];
       final String userRole = responseData['user']['role'];
+      final String userRegNo = responseData['user']['registrationNumber'];
 
       // Store token, userId, and userRole in SharedPreferences
       prefs.setString('auth_token', token);
       prefs.setString('user_id', userId);
       prefs.setString('user_role', userRole);
+      prefs.setString('user_Regno', userRegNo);
     } else {
       throw Exception('Failed to login $Exception');
     }
