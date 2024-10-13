@@ -32,20 +32,23 @@ class AuthService {
       final String userId = responseData['user']['id'];
       final String userRole = responseData['user']['role'];
       final String userRegNo = responseData['user']['registrationNumber'];
-      final String userUname = responseData['user']['username'];
-      final String userName = responseData['user']['name'];
+      final String userName = responseData['user']['username'];
+      final String uName = responseData['user']['name'];
       final String userFac = responseData['user']['faculty'];
-      final String userDept = responseData['user']['department'];
 
       // Store token, userId, and userRole in SharedPreferences
       prefs.setString('auth_token', token);
       prefs.setString('user_id', userId);
       prefs.setString('user_role', userRole);
       prefs.setString('user_Regno', userRegNo);
+      prefs.setString('user_name', userName);
+      prefs.setString('user_faculty', userFac);
+      prefs.setString('name', uName);
     } else {
       throw Exception('Failed to login $Exception');
     }
   }
+
   //Letter show Path
 
   Future<List<dynamic>> fetchLetters(String? registrationNumber) async {
@@ -54,14 +57,13 @@ class AuthService {
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({"registrationNumber": registrationNumber}));
 
-      // ignore: avoid_print
-      print("Responce is ${response.body} ");
-
       if (response.statusCode == 200) {
         final List<dynamic> parsedData = jsonDecode(response.body);
         _letters = parsedData
             .map((letter) => Map<String, dynamic>.from(letter))
             .toList();
+        print("Letter is - ");
+        print(_letters);
         return _letters;
       } else {
         // ignore: avoid_print

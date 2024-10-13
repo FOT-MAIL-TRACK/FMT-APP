@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fot_mail_track/profilepage.dart';
 import 'package:fot_mail_track/qr_scanner.dart';
 import 'package:fot_mail_track/status_screen.dart';
 import 'package:toast/toast.dart';
@@ -61,7 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color.fromARGB(31, 70, 41, 41),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Profilepage()),
+              );
+            },
             icon: Image.asset(
               'assets/profile.png',
               width: 30,

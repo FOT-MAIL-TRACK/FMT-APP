@@ -27,61 +27,87 @@ class _StatusScreenState extends State<StatusScreen> {
 
   Future<String?> getUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
-    // final String? userId = prefs.getString('user_id');
     final String? userRegNo = prefs.getString('user_Regno');
-    // final String? userRole = prefs.getString('user_role');
-    print("Reg No is " + userRegNo.toString());
     return userRegNo;
-  }
-
-  void _onTrackingBtnPressed() async {
-    try {
-      await _authService
-          .fetchLetters(userRegNo.toString()); // Use the AuthService instance
-
-      // If login is successful, Print Success
-      // ignore: avoid_print
-
-      print("Success  ${pData[0]['_id']}");
-    } catch (e) {
-      // ignore: avoid_print
-      print('Letter Error : $e');
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("StatusScreen"),
+        title: const Text("Letter Details"),
       ),
-      body: Column(
-        children: [
-          ElevatedButton(
-              onPressed: _onTrackingBtnPressed,
-              child: const Text("Show status on terminal")),
-          FutureBuilder(
-              future: _authService.fetchLetters(userRegNo.toString()),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  pData = snapshot.data;
+      body: Padding(
+        padding: const EdgeInsets.all(25.15),
+        child: Column(
+          children: [
+            FutureBuilder(
+                future: _authService.fetchLetters(userRegNo.toString()),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    pData = snapshot.data;
 
-                  return Expanded(
-                    child: ListView.builder(
-                        itemCount: pData.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text("${pData[index]['_id']}"),
-                          );
-                        }),
-                  );
-                }
-              })
-        ],
+                    return Expanded(
+                      child: ListView.builder(
+                          itemCount: pData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal:
+                                      16.0), // Spacing between list tiles
+                              decoration: BoxDecoration(
+                                color: Colors.white, // Background color
+                                borderRadius: BorderRadius.circular(
+                                    12.0), // Rounded corners
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey
+                                        .withOpacity(0.5), // Shadow color
+                                    spreadRadius:
+                                        2, // How much the shadow spreads
+                                    blurRadius:
+                                        5, // The blur effect of the shadow
+                                    offset:
+                                        const Offset(0, 3), // Shadow position
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(
+                                    16.0), // Padding inside the container
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Senders Name: ${pData[index]['sender']['name']}",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "Receiver Name: ${pData[index]['receiver']['name']}",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    );
+                  }
+                })
+          ],
+        ),
       ),
     );
   }

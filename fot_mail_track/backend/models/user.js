@@ -18,8 +18,6 @@ const UserSchema = new mongoose.Schema({
     },
     username: {
     type: String,
-    unique: true,
-    sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
     name: {
@@ -34,7 +32,6 @@ const UserSchema = new mongoose.Schema({
   },
   faculty: {
     type: String,
-    sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
   department: {

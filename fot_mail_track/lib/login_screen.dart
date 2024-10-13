@@ -15,8 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
       AuthService(); // Create an instance of AuthService
 
   void _handleLogin() async {
-    String email = _emailController.text;
-    String password = _passwordController.text;
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
     try {
       await _authService.login(email, password); // Use the AuthService instance
 
