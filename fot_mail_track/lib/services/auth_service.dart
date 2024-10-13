@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String baseUrl = 'http://192.168.3.218:5000/api/auth';
+  final String baseUrl = 'http://192.168.16.218:5000/api/auth';
 
   // Declare the _letters list to store fetched letter data
   List<Map<String, dynamic>> _letters = [];
@@ -32,6 +32,10 @@ class AuthService {
       final String userId = responseData['user']['id'];
       final String userRole = responseData['user']['role'];
       final String userRegNo = responseData['user']['registrationNumber'];
+      final String userUname = responseData['user']['username'];
+      final String userName = responseData['user']['name'];
+      final String userFac = responseData['user']['faculty'];
+      final String userDept = responseData['user']['department'];
 
       // Store token, userId, and userRole in SharedPreferences
       prefs.setString('auth_token', token);
