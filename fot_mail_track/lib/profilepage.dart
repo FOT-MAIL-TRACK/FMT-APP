@@ -12,7 +12,7 @@ class Profilepage extends StatefulWidget {
 class _ProfilepageState extends State<Profilepage> {
   //Create AuthServices Instant
   final AuthService _authService = AuthService();
-  //Name Veriables
+  //Name Variables
   String? userId;
   String? userRole;
   String? userName;
@@ -39,43 +39,32 @@ class _ProfilepageState extends State<Profilepage> {
 
   Future<String?> getUserUName() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? userName = prefs.getString('user_name');
-
-    return userName;
+    return prefs.getString('user_name');
   }
 
   Future<String?> getUserRole() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? userRole = prefs.getString('user_role');
-
-    return userRole;
+    return prefs.getString('user_role');
   }
 
   Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? userId = prefs.getString('user_id');
-
-    return userId;
+    return prefs.getString('user_id');
   }
 
   Future<String?> getName() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? uName = prefs.getString('name');
-
-    return uName;
+    return prefs.getString('name');
   }
 
   Future<String?> getFaculty() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? uFaculty = prefs.getString('user_faculty');
-
-    return uFaculty;
+    return prefs.getString('user_faculty');
   }
 
   Future<String?> getUserRegNo() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? userRegNo = prefs.getString('user_Regno');
-    return userRegNo;
+    return prefs.getString('user_Regno');
   }
 
   @override
@@ -83,50 +72,66 @@ class _ProfilepageState extends State<Profilepage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
+        backgroundColor: Colors.teal, // Subtle color for app bar
       ),
       body: Container(
-        color: const Color.fromARGB(31, 156, 143, 143),
+        padding: const EdgeInsets.all(16.0),
+        color: const Color(0xFFF0F0F0), // Light background color for the page
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 40,
+              const SizedBox(height: 40),
+              CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage('assets/funnypic.jpeg'),
+                backgroundColor: Colors.transparent,
               ),
+              const SizedBox(height: 20),
               Text(
-                "Hey $uName",
+                "Hey, $uName!",
                 style: const TextStyle(
-                    color: Color.fromARGB(255, 33, 30, 30),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30),
+                  color: Color(0xFF212121), // Darker color for contrast
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28, // Slightly smaller font size for elegance
+                ),
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              Image.asset(
-                'assets/funnypic.jpeg',
-                width: 200,
-                height: 200,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text("Role : $userRole"),
-              const SizedBox(
-                height: 40,
-              ),
-              Text("Id : $userId"),
-              const SizedBox(
-                height: 40,
-              ),
-              Text("User Name : $userName"),
-              const SizedBox(
-                height: 40,
-              ),
-              Text("Faculty : $uFaculty"),
+              const SizedBox(height: 20),
+              _buildProfileInfo("Role", userRole),
+              _buildProfileInfo("ID", userId),
+              _buildProfileInfo("Username", userName),
+              _buildProfileInfo("Faculty", uFaculty),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // Helper widget to display profile info
+  Widget _buildProfileInfo(String label, String? value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              color: Color(0xFF757575), // Soft gray for labels
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value ?? 'Not available',
+            style: const TextStyle(
+              color: Color(0xFF424242), // Dark text for values
+              fontSize: 18,
+            ),
+          ),
+          const Divider(color: Colors.grey), // Divider between profile fields
+        ],
       ),
     );
   }
