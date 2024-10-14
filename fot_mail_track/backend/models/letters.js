@@ -4,13 +4,18 @@ const LetterSchema = new mongoose.Schema({
  
     title:{
         type: String,
+        trim: true,
+        
+    },
+    uniqueID:{
+        type: String,
         required: true,
         trim: true,
         
     },
     content: {
         type: String,
-        required: true,
+ 
     },
     sender: {
     type: Object,
@@ -29,7 +34,6 @@ const LetterSchema = new mongoose.Schema({
   },
   currentHolder: {
     type: Object,
-    sparse: true, // Allows multiple documents without a username
     default: null // Ensure it defaults to null
   },
   qrCode: {

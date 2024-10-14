@@ -104,6 +104,39 @@ router.patch('/statusUpdate', async (req, res) => {
   }
 });
 
+//TrackingLog Update Path
+router.put('/updateTracking/:uniqueID', async (req, res) => {
+  const uniqueID = req.params.uniqueID;
+  console.log(`Unique ID is : ${uniqueID}`);
+  const { user } = req.body; // User object should contain the user details to be added to the trackingLog
+
+  try {
+    // Find the letter by uniqueID
+    const letter = await Letter.findOne({ uniqueID });
+    console.log(`Unique ID is in here : ${uniqueID}`);
+    if (!letter) return res.status(404).json({ message: 'Letter not found' });
+
+    // Update trackingLog by pushing the new user to the array
+    letter.trackingLog.push({
+      user: user._id,
+      name: user.name,
+      updatedAt: new Date()
+    });
+
+    // Update the currentHolder field with the new user
+    letter.currentHolder = user._id;  // Assuming user._id is the identifier of the user
+
+    // Save the updated letter
+    await letter.save();
+
+    res.json({ message: 'Tracking log updated', letter });
+  } catch (error) {
+    console.error('Error updating tracking log:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 
 
 

@@ -84,10 +84,19 @@ class _StatusScreenState extends State<StatusScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
+                                      "Letter ID : ${pData[index]['uniqueID']}",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
                                       "Senders Name: ${pData[index]['sender']['name']}",
                                       style: const TextStyle(
                                         fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
