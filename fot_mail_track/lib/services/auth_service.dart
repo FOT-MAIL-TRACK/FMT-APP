@@ -10,6 +10,7 @@ class AuthService {
 
   // Declare the _letters list to store fetched letter data
   List<Map<String, dynamic>> _letters = [];
+  List<Map<String, dynamic>> _letter = [];
 
   // Getter to access the letters outside of this class
   List<Map<String, dynamic>> get letters => _letters;
@@ -62,8 +63,7 @@ class AuthService {
         _letters = parsedData
             .map((letter) => Map<String, dynamic>.from(letter))
             .toList();
-        print("Letter is - ");
-        print(_letters);
+
         return _letters;
       } else {
         // ignore: avoid_print
@@ -75,5 +75,27 @@ class AuthService {
       print("ERROR IS $err");
     }
     return [];
+  }
+
+//One Letter Show Path
+
+  Future<Map<String, dynamic>?> fetchOneLetter(String? id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/getLetter'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"id": id}),
+      );
+
+      if (response.statusCode == 200) {
+        return Map<String, dynamic>.from(jsonDecode(response.body));
+      } else {
+        print("Failed to fetch letter: ${response.body}");
+        return null;
+      }
+    } catch (err) {
+      print("ERROR IS $err");
+      return null;
+    }
   }
 }

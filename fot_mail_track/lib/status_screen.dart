@@ -18,12 +18,12 @@ class _StatusScreenState extends State<StatusScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserId(); // Load the userId when the screen is initialized
+    _loadUserId();
   }
 
   Future<void> _loadUserId() async {
     userRegNo = await getUserInfo();
-    setState(() {}); // Update the UI after loading userId
+    setState(() {});
   }
 
   Future<String?> getUserInfo() async {
@@ -61,7 +61,9 @@ class _StatusScreenState extends State<StatusScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => TrackingLog(),
+                                    builder: (context) => TrackingLog(
+                                      LetterID: pData[index]['_id'],
+                                    ),
                                   ),
                                 );
                               },

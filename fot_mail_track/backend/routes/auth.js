@@ -46,9 +46,25 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//Create Tracking routers
+//Get One Letter
 
+router.post('/getLetter', async (req , res) => {
+  const {  id } = req.body;
 
+  try{
+
+    const letter = await Letter.findOne({'_id': id})
+    if (!letter) return res.status(400).json({ message: 'Invalid Letter' });
+
+    res.json(letter);
+
+  }catch(err){
+    console.error(err);
+    res.status(500).json({ message: 'Server error on Get Letter route' });
+  }
+})
+
+//Get Multiple letters
 router.post('/tracking', async (req, res) => {
   const { registrationNumber } = req.body;
 
