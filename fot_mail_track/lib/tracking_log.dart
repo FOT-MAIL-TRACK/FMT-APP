@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/services/auth_service.dart';
-import 'package:intl/intl.dart'; // For formatting the date
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // For formatting the date
 
 class TrackingLog extends StatefulWidget {
   final String LetterID;
-  const TrackingLog({super.key, required this.LetterID});
+  final String uniqueID;
+  const TrackingLog(
+      {super.key, required this.LetterID, required this.uniqueID});
 
   @override
   State<TrackingLog> createState() => _TrackingLogState();
@@ -13,11 +16,57 @@ class TrackingLog extends StatefulWidget {
 class _TrackingLogState extends State<TrackingLog> {
   final AuthService _authService = AuthService();
   Map<String, dynamic>? letterData;
+  String? userId;
+  String? uName;
+  String? userRegNo;
 
   @override
   void initState() {
     super.initState();
     _fetchLetterData();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    userRegNo = await getUserRegNo();
+    userId = await getUserId();
+    uName = await getName();
+    setState(() {}); // Update the UI after loading userId
+  }
+
+  Future<String?> getName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('name');
+  }
+
+  Future<String?> getUserRegNo() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('user_Regno');
+  }
+
+  Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('user_id');
+  }
+
+//update tracking log
+  Future<void> _updateTrackingLog() async {
+    if (userId != null && uName != null && userRegNo != null) {
+      bool lState = false;
+      for (int i = 0; i < letterData!['trackingLog'].length; i++) {
+        final trackingLog = letterData!['trackingLog'][i];
+        if (trackingLog['user'].toString() == userRegNo.toString()) {
+          lState = true;
+        }
+      }
+      if (lState == false) {
+        await _authService.updateTrackingLog(
+            userId, uName, userRegNo, widget.uniqueID);
+      }
+    }
+    setState(() {
+      _fetchLetterData();
+    });
   }
 
   Future<void> _fetchLetterData() async {
@@ -133,6 +182,20 @@ class _TrackingLogState extends State<TrackingLog> {
                             },
                           ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.20),
+                    child: Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: const Color.fromARGB(255, 116, 3, 3),
+                          backgroundColor: const Color.fromARGB(
+                              255, 229, 222, 221), // foreground
+                        ),
+                        onPressed: _updateTrackingLog,
+                        child: const Text('Update Tracking Log'),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

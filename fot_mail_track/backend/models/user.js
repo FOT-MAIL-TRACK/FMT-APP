@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema({
   registrationNumber: {
     type: String,
     default: null // Ensure it defaults to null
-  },
+  }
   
 
    

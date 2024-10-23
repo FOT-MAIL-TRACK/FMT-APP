@@ -98,4 +98,30 @@ class AuthService {
       return null;
     }
   }
+
+  //Tracking Log Update Path
+
+  Future<void> updateTrackingLog(
+      String? uId, String? name, String? _id, String? letterID) async {
+    final url = Uri.parse('$baseUrl/updateTracking/$letterID');
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'user': _id, // Pass _id directly
+          'name': name,
+          'uniqueID': uId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("Tracking log updated successfully");
+      } else {
+        print("Failed to update tracking log: ${response.body}");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
 }

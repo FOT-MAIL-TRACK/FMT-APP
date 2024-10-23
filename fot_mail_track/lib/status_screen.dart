@@ -62,8 +62,8 @@ class _StatusScreenState extends State<StatusScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => TrackingLog(
-                                      LetterID: pData[index]['_id'],
-                                    ),
+                                        LetterID: pData[index]['_id'],
+                                        uniqueID: pData[index]['uniqueID']),
                                   ),
                                 );
                               },
