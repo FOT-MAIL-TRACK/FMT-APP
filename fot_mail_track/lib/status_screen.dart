@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/services/auth_service.dart';
+import 'package:fot_mail_track/tracking_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StatusScreen extends StatefulWidget {
@@ -55,59 +56,70 @@ class _StatusScreenState extends State<StatusScreen> {
                       child: ListView.builder(
                           itemCount: pData.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 8.0,
-                                  horizontal:
-                                      16.0), // Spacing between list tiles
-                              decoration: BoxDecoration(
-                                color: Colors.white, // Background color
-                                borderRadius: BorderRadius.circular(
-                                    12.0), // Rounded corners
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey
-                                        .withOpacity(0.5), // Shadow color
-                                    spreadRadius:
-                                        2, // How much the shadow spreads
-                                    blurRadius:
-                                        5, // The blur effect of the shadow
-                                    offset:
-                                        const Offset(0, 3), // Shadow position
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TrackingLog(),
                                   ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(
-                                    16.0), // Padding inside the container
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Letter ID : ${pData[index]['uniqueID']}",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "Senders Name: ${pData[index]['sender']['name']}",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "Receiver Name: ${pData[index]['receiver']['name']}",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 8.0,
+                                    horizontal:
+                                        16.0), // Spacing between list tiles
+                                decoration: BoxDecoration(
+                                  color: Colors.white, // Background color
+                                  borderRadius: BorderRadius.circular(
+                                      12.0), // Rounded corners
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey
+                                          .withOpacity(0.5), // Shadow color
+                                      spreadRadius:
+                                          2, // How much the shadow spreads
+                                      blurRadius:
+                                          5, // The blur effect of the shadow
+                                      offset:
+                                          const Offset(0, 3), // Shadow position
                                     ),
                                   ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(
+                                      16.0), // Padding inside the container
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Letter ID : ${pData[index]['uniqueID']}",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Senders Name: ${pData[index]['sender']['name']}",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "Receiver Name: ${pData[index]['receiver']['name']}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
