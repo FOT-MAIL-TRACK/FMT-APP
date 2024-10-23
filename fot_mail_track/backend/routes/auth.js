@@ -56,7 +56,8 @@ router.post('/tracking', async (req, res) => {
     const letters = await Letter.find({
       $or: [
         { 'sender.registrationNumber': registrationNumber },
-        { 'receiver.registrationNumber': registrationNumber }
+        { 'receiver.registrationNumber': registrationNumber },
+        
       ]
     });
 
@@ -120,6 +121,7 @@ router.put('/updateTracking/:uniqueID', async (req, res) => {
     letter.trackingLog.push({
       user: user._id,
       name: user.name,
+      uniqueID:user.uId,
       updatedAt: new Date()
     });
 
