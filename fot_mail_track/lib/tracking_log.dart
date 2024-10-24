@@ -51,19 +51,26 @@ class _TrackingLogState extends State<TrackingLog> {
 
 //update tracking log
   Future<void> _updateTrackingLog() async {
-    if (userId != null && uName != null && userRegNo != null) {
-      bool lState = false;
-      for (int i = 0; i < letterData!['trackingLog'].length; i++) {
-        final trackingLog = letterData!['trackingLog'][i];
-        if (trackingLog['user'].toString() == userRegNo.toString()) {
-          lState = true;
-        }
-      }
-      if (lState == false) {
-        await _authService.updateTrackingLog(
-            userId, uName, userRegNo, widget.uniqueID);
+    bool lState = false;
+    for (int i = 0; i < letterData!['trackingLog'].length; i++) {
+      final trackingLog = letterData!['trackingLog'][i];
+      if (trackingLog['user'].toString() == userRegNo.toString()) {
+        lState = true;
       }
     }
+
+    String SenderID = letterData!['sender']['registrationNumber'];
+    SenderID = SenderID.trim();
+    String userID = userRegNo.toString();
+    userID = userID.trim();
+    print("Sender Id is " + SenderID);
+    print("User's Registration Number is " + userRegNo.toString());
+
+    if (lState == false && userID != SenderID) {
+      await _authService.updateTrackingLog(
+          userId, uName, userRegNo, widget.uniqueID);
+    }
+
     setState(() {
       _fetchLetterData();
     });
