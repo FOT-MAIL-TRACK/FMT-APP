@@ -65,6 +65,30 @@ router.post('/getLetter', async (req , res) => {
 })
 
 //Get Multiple letters
+// router.post('/tracking', async (req, res) => {
+//   const { registrationNumber } = req.body;
+
+//   try {
+//     const letters = await Letter.find({
+//       $or: [
+//         { 'sender.registrationNumber': registrationNumber },
+//         { 'receiver.registrationNumber': registrationNumber },
+
+        
+//       ]
+//     });
+
+//     if (letters.length === 0) return res.status(400).json({ message: 'Invalid Letter' });
+
+    
+//     res.json(letters); 
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: 'Server error on tracking route' });
+//   }
+// });
+
+// Get Multiple letters
 router.post('/tracking', async (req, res) => {
   const { registrationNumber } = req.body;
 
@@ -73,19 +97,20 @@ router.post('/tracking', async (req, res) => {
       $or: [
         { 'sender.registrationNumber': registrationNumber },
         { 'receiver.registrationNumber': registrationNumber },
-        
+        { 'receiver.authorities.registrationNumber': registrationNumber }
       ]
     });
 
     if (letters.length === 0) return res.status(400).json({ message: 'Invalid Letter' });
 
-    
     res.json(letters); 
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error on tracking route' });
   }
 });
+
+
 
 //Create Letter Status Update routes
 
