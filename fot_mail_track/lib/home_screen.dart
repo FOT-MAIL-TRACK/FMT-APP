@@ -51,12 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Letter Tracker',
+          'FOT - MAIL - TRACK',
           style: TextStyle(
-            fontFamily: 'EduVICWANTBeginner',
+            fontFamily: 'Roboto-Bold',
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 17, 0, 246),
+            color: Color.fromARGB(255, 0, 0, 5),
           ),
         ),
         backgroundColor: const Color.fromARGB(31, 70, 41, 41),
