@@ -275,18 +275,26 @@ class _TrackingLogState extends State<TrackingLog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                  icon: Image.asset('assets/right.png'),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    await _updateTrackingLog();
-                  },
+                SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: IconButton(
+                    icon: Image.asset('assets/right.png'),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      await _updateTrackingLog();
+                    },
+                  ),
                 ),
-                IconButton(
-                  icon: Image.asset('assets/reject.png'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: IconButton(
+                    icon: Image.asset('assets/reject.png'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 ),
               ],
             ),
