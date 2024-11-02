@@ -14,7 +14,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
@@ -31,7 +31,7 @@ jobs:
       run: flutter build apk --release
 
     - name: Upload APK as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: FMT-APP-APK
         path: build/app/outputs/flutter-apk/app-release.apk
@@ -42,15 +42,15 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Google Play Credentials
       run: |
-        echo $PLAY_STORE_SERVICE_ACCOUNT > $HOME/play-store-credentials.json
+        echo "${{ secrets.PLAY_STORE_SERVICE_ACCOUNT }}" > $HOME/play-store-credentials.json
 
     - name: Install Fastlane (for Play Store deployment)
       run: |
-        sudo apt-get install ruby ruby-dev build-essential
+        sudo apt-get install ruby ruby-dev build-essential -y
         sudo gem install fastlane -NV
 
     - name: Deploy to Google Play
@@ -59,4 +59,3 @@ jobs:
         --package_name ${{ secrets.PACKAGE_NAME }} \
         --json_key $HOME/play-store-credentials.json \
         --track production
-
