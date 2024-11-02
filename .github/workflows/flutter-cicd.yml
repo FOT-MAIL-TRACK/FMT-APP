@@ -1,4 +1,4 @@
-name: Flutter CI Pipeline for FMT-APP
+name: Flutter CI for FMT-APP
 
 on:
   push:
