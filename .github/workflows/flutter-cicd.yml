@@ -1,4 +1,4 @@
-name: Flutter CI/CD for FMT-APP
+name: Flutter CI Pipeline for FMT-APP
 
 on:
   push:
@@ -35,27 +35,3 @@ jobs:
       with:
         name: FMT-APP-APK
         path: build/app/outputs/flutter-apk/app-release.apk
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Google Play Credentials
-      run: |
-        echo "${{ secrets.PLAY_STORE_SERVICE_ACCOUNT }}" > $HOME/play-store-credentials.json
-
-    - name: Install Fastlane (for Play Store deployment)
-      run: |
-        sudo apt-get install ruby ruby-dev build-essential -y
-        sudo gem install fastlane -NV
-
-    - name: Deploy to Google Play
-      run: |
-        fastlane supply --aab build/app/outputs/flutter-apk/app-release.apk \
-        --package_name ${{ secrets.PACKAGE_NAME }} \
-        --json_key $HOME/play-store-credentials.json \
-        --track production
