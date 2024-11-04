@@ -22,22 +22,27 @@ jobs:
         flutter-version: '3.13.0'
 
     - name: Install dependencies
-      run: flutter pub get
-      working-directory: ./fot_mail_track# Ensure the correct project path here
+      run: |
+        cd fot_mail_track
+        flutter pub get
 
     - name: Run unit tests
-      run: flutter test
-      working-directory: ./fot_mail_track # Ensure the correct project path here
+      run: |
+        cd fot_mail_track
+        flutter test
 
     - name: Build APK
-      run: flutter build apk --release
-      working-directory: ./fot_mail_track # Ensure the correct project path here
+      run: |
+        cd fot_mail_track
+        flutter build apk --release
 
     - name: Upload APK as artifact
+      run: |
+        cd fot_mail_track
+        cp build/app/outputs/flutter-apk/app-release.apk ../
       uses: actions/upload-artifact@v3
       with:
         name: FMT-APP-APK
-        path: build/app/outputs/flutter-apk/app-release.apk
-      working-directory: ./fot_mail_track # Ensure the correct project path here
+        path: app-release.apk
 
 
