@@ -23,17 +23,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd your_flutter_project_directory
+        cd fot_mail_track
         flutter pub get
 
     - name: Run unit tests
       run: |
-        cd your_flutter_project_directory
+        cd fot_mail_track
         flutter test
 
     - name: Build APK
       run: |
-        cd your_flutter_project_directory
+        cd fot_mail_track
         flutter build apk --release
 
     - name: Move APK to root directory
