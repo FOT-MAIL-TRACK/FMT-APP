@@ -17,30 +17,21 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Flutter
-      uses: subosito/flutter-action@v2
+      uses: subosito/flutter-action@v3  # Try using the latest version of the action
       with:
-        flutter-version: 'stable'
-
-    - name: Navigate to Flutter project directory
-      run: cd fot_mail_track
+        flutter-version: '3.13.0'  # Specify the latest stable Flutter version
 
     - name: Install dependencies
-      run: |
-        cd fot_mail_track
-        flutter pub get
+      run: flutter pub get
 
     - name: Run unit tests
-      run: |
-        cd fot_mail_track
-        flutter test
+      run: flutter test
 
     - name: Build APK
-      run: |
-        cd fot_mail_track
-        flutter build apk --release
+      run: flutter build apk --release
 
     - name: Upload APK as artifact
       uses: actions/upload-artifact@v3
       with:
         name: FMT-APP-APK
-        path: flutter-app/build/app/outputs/flutter-apk/app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
