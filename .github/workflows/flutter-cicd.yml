@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -19,19 +19,26 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: 'stable'
+        flutter-version: '3.10.5'  # Manually specify a stable Flutter version
 
     - name: Install dependencies
-      run: flutter pub get
+      run: |
+        echo "Running flutter pub get..."
+        flutter pub get
 
     - name: Run unit tests
-      run: flutter test
+      run: |
+        echo "Running flutter tests..."
+        flutter test
 
     - name: Build APK
-      run: flutter build apk --release
+      run: |
+        echo "Building APK..."
+        flutter build apk --release
 
     - name: Upload APK as artifact
       uses: actions/upload-artifact@v3
       with:
         name: FMT-APP-APK
         path: build/app/outputs/flutter-apk/app-release.apk
+
