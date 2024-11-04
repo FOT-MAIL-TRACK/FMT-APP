@@ -22,21 +22,21 @@ jobs:
         flutter-version: 'stable'
 
     - name: Navigate to Flutter project directory
-      run: cd flutter-app
+      run: cd fot_mail_track
 
     - name: Install dependencies
       run: |
-        cd flutter-app
+        cd fot_mail_track
         flutter pub get
 
     - name: Run unit tests
       run: |
-        cd flutter-app
+        cd fot_mail_track
         flutter test
 
     - name: Build APK
       run: |
-        cd flutter-app
+        cd fot_mail_track
         flutter build apk --release
 
     - name: Upload APK as artifact
