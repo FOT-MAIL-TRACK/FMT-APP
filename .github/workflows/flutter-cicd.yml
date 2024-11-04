@@ -21,6 +21,11 @@ jobs:
       with:
         flutter-version: '3.13.0' # Use a Flutter version that includes Dart SDK >= 3.2.3
 
+    - name: Verify Flutter and Dart version
+      run: |
+        flutter --version
+        dart --version
+
     - name: Install dependencies
       run: |
         cd fot_mail_track
