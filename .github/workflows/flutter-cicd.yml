@@ -23,26 +23,26 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd fot_mail_track
+        cd your_flutter_project_directory
         flutter pub get
 
     - name: Run unit tests
       run: |
-        cd fot_mail_track
+        cd your_flutter_project_directory
         flutter test
 
     - name: Build APK
       run: |
-        cd fot_mail_track
+        cd your_flutter_project_directory
         flutter build apk --release
 
-    - name: Upload APK as artifact
+    - name: Move APK to root directory
       run: |
-        cd fot_mail_track
-        cp build/app/outputs/flutter-apk/app-release.apk ../
+        mv your_flutter_project_directory/build/app/outputs/flutter-apk/app-release.apk .
+
+    - name: Upload APK as artifact
       uses: actions/upload-artifact@v3
       with:
         name: FMT-APP-APK
         path: app-release.apk
-
 
