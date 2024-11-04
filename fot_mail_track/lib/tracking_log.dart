@@ -55,8 +55,8 @@ class _TrackingLogState extends State<TrackingLog> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Letter ID: ${widget.LetterID}"),
-          content: Text("$uName, I received this letter."),
+          title: Text("Letter ID: ${widget.uniqueID}"),
+          content: Text("$uName, received this letter."),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,21 +100,39 @@ class _TrackingLogState extends State<TrackingLog> {
         }
       }
 
-      String senderID = letterData!['sender']['registrationNumber'].trim();
       String userID = userRegNo.toString().trim();
-
-      if (!lState && userID != senderID) {
-        await _authService.updateTrackingLog(
-            userId, uName, userRegNo, widget.uniqueID);
-        Fluttertoast.showToast(msg: "Tracking Log successfully updated");
+      if (letterData!['uniqueID'].startsWith("EXT")) {
+        if (!lState) {
+          await _authService.updateTrackingLog(
+              userId, uName, userRegNo, widget.uniqueID);
+          Fluttertoast.showToast(msg: "Tracking Log successfully updated");
+        }
+        //Add recievers reg No
+        else {
+          Fluttertoast.showToast(
+              msg: "Tracking log update failed", backgroundColor: Colors.red);
+        }
       } else {
-        Fluttertoast.showToast(
-            msg: "Tracking log update failed", backgroundColor: Colors.red);
+        String senderID = letterData!['sender']['registrationNumber'].trim();
+
+        if (!lState && userID != senderID) {
+          await _authService.updateTrackingLog(
+              userId, uName, userRegNo, widget.uniqueID);
+          Fluttertoast.showToast(msg: "Tracking Log successfully updated");
+        }
+        //Add recievers reg No
+        else {
+          Fluttertoast.showToast(
+              msg: "Tracking log update failed", backgroundColor: Colors.red);
+        }
       }
     } catch (e) {
       Fluttertoast.showToast(
           msg: "Tracking log update failed", backgroundColor: Colors.red);
     }
+
+    //ToDo the problem is with userID != senderID
+    //Failed to fetch letters: {"message":"Invalid Letter"}
 
     setState(() {
       _fetchLetterData();
