@@ -19,7 +19,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.13.0'
+        flutter-version: '3.13.0' # Use a Flutter version that includes Dart SDK >= 3.2.3
 
     - name: Install dependencies
       run: |
@@ -38,11 +38,13 @@ jobs:
 
     - name: Move APK to root directory
       run: |
-        mv your_flutter_project_directory/build/app/outputs/flutter-apk/app-release.apk .
+        mv fot_mail_track/build/app/outputs/flutter-apk/app-release.apk .
 
     - name: Upload APK as artifact
       uses: actions/upload-artifact@v3
       with:
         name: FMT-APP-APK
+        path: app-release.apk
+
         path: app-release.apk
 
