@@ -45,6 +45,3 @@ jobs:
       with:
         name: FMT-APP-APK
         path: app-release.apk
-
-        path: app-release.apk
-
