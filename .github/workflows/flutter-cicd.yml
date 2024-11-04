@@ -19,26 +19,28 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.10.5'  # Manually specify a stable Flutter version
+        flutter-version: 'stable'
+
+    - name: Navigate to Flutter project directory
+      run: cd flutter-app
 
     - name: Install dependencies
       run: |
-        echo "Running flutter pub get..."
+        cd flutter-app
         flutter pub get
 
     - name: Run unit tests
       run: |
-        echo "Running flutter tests..."
+        cd flutter-app
         flutter test
 
     - name: Build APK
       run: |
-        echo "Building APK..."
+        cd flutter-app
         flutter build apk --release
 
     - name: Upload APK as artifact
       uses: actions/upload-artifact@v3
       with:
         name: FMT-APP-APK
-        path: build/app/outputs/flutter-apk/app-release.apk
-
+        path: flutter-app/build/app/outputs/flutter-apk/app-release.apk
