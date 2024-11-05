@@ -44,6 +44,10 @@ const LetterSchema = new mongoose.Schema({
     type: Array,
     default: null // Ensure it defaults to null
   },
+  status: {
+    type: String,
+    default: null // Ensure it defaults to null
+  },
   
   
 });

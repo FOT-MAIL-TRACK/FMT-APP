@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fot_mail_track/login_screen.dart';
 import 'package:fot_mail_track/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,6 +48,14 @@ class _ProfilepageState extends State<Profilepage> {
     return prefs.getString('user_role');
   }
 
+  void _logoutLogic() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+      (route) => false,
+    );
+  }
+
   Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('user_id');
@@ -82,14 +91,14 @@ class _ProfilepageState extends State<Profilepage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 40),
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 60,
                 backgroundImage: AssetImage('assets/funnypic.jpeg'),
                 backgroundColor: Colors.transparent,
               ),
               const SizedBox(height: 20),
               Text(
-                "Hey, $uName!",
+                "Hey $uName!",
                 style: const TextStyle(
                   color: Color(0xFF212121), // Darker color for contrast
                   fontWeight: FontWeight.bold,
@@ -101,6 +110,27 @@ class _ProfilepageState extends State<Profilepage> {
               _buildProfileInfo("ID", userId),
               _buildProfileInfo("Username", userName),
               _buildProfileInfo("Faculty", uFaculty),
+              IconButton(
+                onPressed: () {
+                  _logoutLogic();
+                },
+                icon: Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.red, // Background color of button
+                    borderRadius: BorderRadius.circular(8.0), // Rounded corners
+                  ),
+                  child: const Text(
+                    "Logout",
+                    style: TextStyle(
+                      color: Colors.white, // Text color
+                      fontSize: 16, // Font size
+                      fontWeight: FontWeight.bold, // Bold text
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

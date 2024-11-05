@@ -109,7 +109,7 @@ class AuthService {
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'user': _id, // Pass _id directly
+          'user': _id,
           'name': name,
           'uniqueID': uId,
         }),
@@ -122,6 +122,27 @@ class AuthService {
       }
     } catch (e) {
       print("Error: $e");
+    }
+  }
+
+  //Update Status
+  Future<void> updateStatus(String? letterID, String? status) async {
+    final url = Uri.parse('$baseUrl/updateStatus/$letterID');
+    final lStatus = status.toString().trim();
+    try {
+      final responce = await http.patch(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'status': lStatus}),
+      );
+
+      if (responce.statusCode == 200) {
+        print("Status updated successfully");
+      } else {
+        print("Status Update Failed");
+      }
+    } catch (err) {
+      print("Error: $err");
     }
   }
 }

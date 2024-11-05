@@ -33,9 +33,7 @@ router.post('/login', async (req, res) => {
     // Generate JWT
     const token = jwt.sign({ id: user._id, role: user.role , registrationNumber: user.registrationNumber ,  username:user.username , faculty:user.faculty, name: user.name , department:user.department  }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    console.log(' User Name is ' + user.name);
-    console.log(' ID is ' + user._id);
-    console.log('User email:', user.email);
+    
     // Send response
     res.json({ token, user: { id: user._id, email: user.email,
     name: user.name ,  role: user.role , registrationNumber: user.registrationNumber ,  username:user.username , faculty:user.faculty , department:user.department } });
@@ -64,29 +62,7 @@ router.post('/getLetter', async (req , res) => {
   }
 })
 
-//Get Multiple letters
-// router.post('/tracking', async (req, res) => {
-//   const { registrationNumber } = req.body;
 
-//   try {
-//     const letters = await Letter.find({
-//       $or: [
-//         { 'sender.registrationNumber': registrationNumber },
-//         { 'receiver.registrationNumber': registrationNumber },
-
-        
-//       ]
-//     });
-
-//     if (letters.length === 0) return res.status(400).json({ message: 'Invalid Letter' });
-
-    
-//     res.json(letters); 
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: 'Server error on tracking route' });
-//   }
-// });
 
 // Get Multiple letters
 router.post('/tracking', async (req, res) => {
@@ -169,6 +145,31 @@ router.put('/updateTracking/:uniqueID', async (req, res) => {
     res.json({ message: 'Tracking log updated', letter });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+//Update status
+
+router.patch('/updateStatus/:uniqueID' , async (req,res)=>{
+  const uniqueID = req.params.uniqueID;
+  const {status} = req.body;
+
+  try {
+    const letter = await Letter.findOne({ uniqueID });
+    if (!letter) return res.status(404).json({message : 'Letter Not Found'});
+
+    letter.status = status;
+    letter.updatedAt = new Date(); 
+
+    await letter.save();
+
+    res.status(200).json({message:'Status updated successfully', letter});
+
+    
+
+  }catch(err){
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error', error: err.message });
   }
 });
 

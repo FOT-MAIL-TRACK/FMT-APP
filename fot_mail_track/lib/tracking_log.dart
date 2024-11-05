@@ -35,6 +35,9 @@ class _TrackingLogState extends State<TrackingLog> {
     setState(() {});
   }
 
+  //Update Current Holder
+  Future<void> updateCurrentUser(String regNo) async {}
+
   Future<String?> getName() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('name');
@@ -99,16 +102,47 @@ class _TrackingLogState extends State<TrackingLog> {
           lState = true;
         }
       }
-
+      //Current user reg No - registrationNumber
       String userID = userRegNo.toString().trim();
+
+      //End recievers registration number
+      String recieverID = letterData!['receiver']['registrationNumber'].trim();
+
+      //Current latter Status
+      String letterStatus = letterData!['status'].trim();
+
+      String completeState = "Completed";
+      String inProgressState = "In Progress";
+      //Method for check and update and status
+      Future<void> _updateCurrentStatus() async {
+        if (letterStatus == "Pending") {
+          try {
+            if (userID == recieverID) {
+              //Status Update Function
+
+              await _authService.updateStatus(
+                  widget.uniqueID, completeState.trim());
+            } else {
+              await _authService.updateStatus(
+                  widget.uniqueID, inProgressState.trim());
+            }
+          } catch (e) {
+            // ignore: avoid_print
+            print("Error is : $e");
+          }
+        }
+      }
+
+      //Check wether this is external letter
       if (letterData!['uniqueID'].startsWith("EXT")) {
         if (!lState) {
           await _authService.updateTrackingLog(
               userId, uName, userRegNo, widget.uniqueID);
+
+          _updateCurrentStatus();
+
           Fluttertoast.showToast(msg: "Tracking Log successfully updated");
-        }
-        //Add recievers reg No
-        else {
+        } else {
           Fluttertoast.showToast(
               msg: "Tracking log update failed", backgroundColor: Colors.red);
         }
@@ -118,10 +152,10 @@ class _TrackingLogState extends State<TrackingLog> {
         if (!lState && userID != senderID) {
           await _authService.updateTrackingLog(
               userId, uName, userRegNo, widget.uniqueID);
+
+          _updateCurrentStatus();
           Fluttertoast.showToast(msg: "Tracking Log successfully updated");
-        }
-        //Add recievers reg No
-        else {
+        } else {
           Fluttertoast.showToast(
               msg: "Tracking log update failed", backgroundColor: Colors.red);
         }
@@ -130,9 +164,6 @@ class _TrackingLogState extends State<TrackingLog> {
       Fluttertoast.showToast(
           msg: "Tracking log update failed", backgroundColor: Colors.red);
     }
-
-    //ToDo the problem is with userID != senderID
-    //Failed to fetch letters: {"message":"Invalid Letter"}
 
     setState(() {
       _fetchLetterData();
