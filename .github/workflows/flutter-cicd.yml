@@ -20,7 +20,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: "stable"  # You can specify the version if needed
+        flutter-version: "3.13.9"  # Explicitly specify the latest version
 
     - name: Install Flutter dependencies
       run: flutter pub get
@@ -39,5 +39,8 @@ jobs:
       if: success()
       uses: actions/upload-artifact@v3
       with:
+        name: release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
         name: release-apk
         path: build/app/outputs/flutter-apk/app-release.apk
