@@ -1,4 +1,4 @@
-name: Flutter CI for FMT-APP
+name: Flutter CI
 
 on:
   push:
@@ -10,39 +10,37 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v3
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.13.0'
+        flutter-version: "3.13.9"  # Explicitly specify the latest version
 
-    - name: Install dependencies
-      run: |
-        cd fot_mail_track
-        flutter pub get
+    - name: Install Flutter dependencies
+      run: flutter pub get
 
-    - name: Run unit tests
-      run: |
-        cd fot_mail_track
-        flutter test
+    - name: Run Flutter tests
+      run: flutter test
 
-    - name: Build APK
-      run: |
-        cd fot_mail_track
-        flutter build apk --release
+    - name: Build APK for Android
+      run: flutter build apk --release
 
-    - name: Upload APK as artifact
-      run: |
-        cd fot_mail_track
-        cp build/app/outputs/flutter-apk/app-release.apk ../
+    - name: Build iOS (macOS only)
+      if: runner.os == 'macOS'
+      run: flutter build ios --release
+
+    - name: Upload APK Artifact
+      if: success()
       uses: actions/upload-artifact@v3
       with:
-        name: FMT-APP-APK
-        path: app-release.apk
+        name: release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
 
-
+        name: release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
