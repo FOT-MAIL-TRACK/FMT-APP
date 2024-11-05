@@ -42,5 +42,4 @@ jobs:
         name: release-apk
         path: build/app/outputs/flutter-apk/app-release.apk
 
-        name: release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
+  
