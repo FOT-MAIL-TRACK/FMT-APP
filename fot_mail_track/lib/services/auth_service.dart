@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String baseUrl = 'http://192.168.120.218:5000/api/auth';
+  final String baseUrl = 'http://192.168.51.218:5000/api/auth';
 
   // Declare the _letters list to store fetched letter data
   List<Map<String, dynamic>> _letters = [];
@@ -48,6 +48,22 @@ class AuthService {
     } else {
       throw Exception('Failed to login $Exception');
     }
+  }
+
+  //Filter
+  Future<List<dynamic>> fetchLettersByDate(String userRegNo,
+      {String? date}) async {
+    // Your existing API call logic
+    // Modify it to include date parameter in the API call if needed
+    if (date != null) {
+      // Use the date parameter in your API call
+      // Example:
+      // final response = await http.get(Uri.parse('your_api_url?date=$date'));
+    } else {
+      // Your existing API call without date filter
+    }
+    List<dynamic> arr = [];
+    return arr;
   }
 
   //Letter show Path

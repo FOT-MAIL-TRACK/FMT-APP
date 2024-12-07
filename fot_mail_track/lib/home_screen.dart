@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/profilepage.dart';
-import 'package:fot_mail_track/qr_scanner.dart';
 import 'package:fot_mail_track/status_screen.dart';
 import 'package:toast/toast.dart';
 
@@ -38,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       ],
     )),
-    const QRscanner(),
+    // const QRscanner(),
     const StatusScreen(),
   ];
 
@@ -51,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'FOT - MAIL - TRACK',
+          'Fot Mail Track',
           style: TextStyle(
             fontFamily: 'Roboto-Bold',
             fontSize: 20,
@@ -59,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Color.fromARGB(255, 0, 0, 5),
           ),
         ),
-        backgroundColor: const Color.fromARGB(31, 70, 41, 41),
+        backgroundColor: const Color.fromARGB(255, 236, 41, 41),
         actions: [
           IconButton(
             onPressed: () {
@@ -84,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         indicatorColor: const Color.fromARGB(255, 61, 133, 209),
+        backgroundColor: const Color.fromARGB(255, 152, 124, 124),
         selectedIndex: currentPageIndex,
         destinations: <Widget>[
           NavigationDestination(
@@ -99,21 +99,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             label: 'Home',
           ),
-          NavigationDestination(
-            selectedIcon: Image.asset(
-              'assets/qrscan.png',
-              width: 40,
-              height: 40,
-            ),
-            icon: Badge(
-              child: Image.asset(
-                'assets/qrscan.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
-            label: 'QR Scan',
-          ),
+          // NavigationDestination(
+          //   selectedIcon: Image.asset(
+          //     'assets/qrscan.png',
+          //     width: 40,
+          //     height: 40,
+          //   ),
+          //   icon: Badge(
+          //     child: Image.asset(
+          //       'assets/qrscan.png',
+          //       width: 20,
+          //       height: 20,
+          //     ),
+          //   ),
+          //   label: 'QR Scan',
+          // ),
           NavigationDestination(
             selectedIcon: Image.asset(
               'assets/status.png',
@@ -121,7 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 40,
             ),
             icon: Badge(
-              label: const Text('2'),
               child: Image.asset(
                 'assets/status.png',
                 width: 20,

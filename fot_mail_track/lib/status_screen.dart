@@ -13,12 +13,86 @@ class StatusScreen extends StatefulWidget {
 class _StatusScreenState extends State<StatusScreen> {
   final AuthService _authService = AuthService();
   List<dynamic> pData = [];
+  List<dynamic> LetterData = [];
+  List<dynamic> filteredData = [];
   String? userRegNo;
+  DateTime? selectedDate;
+  bool isFiltered = false;
 
   @override
   void initState() {
     super.initState();
     _loadUserId();
+  }
+
+  //Letter Fetch
+  // Future<String> _fetchLetters(String pickedDate) async {
+  //   if (userRegNo != null) {
+  //     try {
+  //       final fetchedData = await _authService.fetchLetters(userRegNo!);
+
+  //       if (fetchedData.isNotEmpty) {
+  //         int totLetters = fetchedData.length;
+  //         totLetters = totLetters - 1;
+  //         for (int i = 0; i <= totLetters; i++) {
+  //           LetterData = fetchedData;
+  //           DateTime date =
+  //               DateTime.parse(LetterData[i]['createdAt'].toString());
+  //           print(date.toString());
+  //           print(
+  //               "Letter Data ${i} is : ${LetterData[i]['createdAt'].toString()}");
+  //           String formattedDate =
+  //               "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+  //           print("Long Text is : ${formattedDate}");
+  //           //Check the Equiality
+
+  //           if (pickedDate == formattedDate) {
+  //             //ToDo - Add only the filtered letters show logic.
+  //           }
+  //         }
+  //       }
+  //     } catch (error) {
+  //       print("Error fetching letters: $error");
+  //     }
+  //   }
+  //   return "Null";
+  // }
+
+  Future<void> _fetchLetters(String pickedDate) async {
+    if (userRegNo != null) {
+      try {
+        final fetchedData = await _authService.fetchLetters(userRegNo!);
+        List<dynamic> filtered = [];
+
+        if (fetchedData.isNotEmpty) {
+          for (var letter in fetchedData) {
+            DateTime date = DateTime.parse(letter['createdAt'].toString());
+            String formattedDate =
+                "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+
+            if (pickedDate == formattedDate) {
+              filtered.add(letter);
+            }
+          }
+
+          setState(() {
+            filteredData = filtered;
+            isFiltered = true;
+          });
+        }
+      } catch (error) {
+        print("Error fetching letters: $error");
+      }
+    }
+  }
+
+  //Clear filter method
+  Future<void> _clearFilter() async {
+    setState(() {
+      selectedDate = null;
+      isFiltered = false;
+      filteredData.clear();
+    });
   }
 
   Future<void> _loadUserId() async {
@@ -32,11 +106,52 @@ class _StatusScreenState extends State<StatusScreen> {
     return userRegNo;
   }
 
+  //Date Picker Method
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+      // Convert selected date to the required format
+      String formattedDate = "${picked.toIso8601String().split('T')[0]}";
+      _fetchLetters(formattedDate);
+      // Use this formattedDate for filtering
+      print("Formatted Date is : ${formattedDate}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Letter Details"),
+        title: const Text("Letters - "),
+        actions: [
+          InkWell(onTap: _clearFilter, child: Text("Clear Filter")),
+          const SizedBox(
+            width: 20,
+          ),
+          Text("| Filter By Date : "),
+          IconButton(
+            icon: Image.asset('assets/calendar.png'),
+            onPressed: () => _selectDate(context),
+          ),
+          if (selectedDate != null)
+            IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () {
+                setState(() {
+                  selectedDate = null;
+                });
+              },
+            ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.15),
@@ -50,11 +165,21 @@ class _StatusScreenState extends State<StatusScreen> {
                       child: CircularProgressIndicator(),
                     );
                   } else {
+                    // Update pData with the snapshot data
                     pData = snapshot.data;
+
+                    // Determine which data to display
+                    final displayData = isFiltered ? filteredData : pData;
+
+                    if (displayData.isEmpty && isFiltered) {
+                      return const Center(
+                        child: Text('No letters found for selected date'),
+                      );
+                    }
 
                     return Expanded(
                       child: ListView.builder(
-                          itemCount: pData.length,
+                          itemCount: displayData.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                               onTap: () {
@@ -62,8 +187,9 @@ class _StatusScreenState extends State<StatusScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => TrackingLog(
-                                        LetterID: pData[index]['_id'],
-                                        uniqueID: pData[index]['uniqueID']),
+                                        LetterID: displayData[index]['_id'],
+                                        uniqueID: displayData[index]
+                                            ['uniqueID']),
                                   ),
                                 );
                               },
@@ -89,24 +215,20 @@ class _StatusScreenState extends State<StatusScreen> {
                                     ),
                                   ],
                                 ),
+                                // ... rest of your container code ...
                                 child: Padding(
-                                  padding: const EdgeInsets.all(
-                                      16.0), // Padding inside the container
+                                  padding: const EdgeInsets.all(16.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Letter ID : ${pData[index]['uniqueID']}",
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                        "Letter ID : ${displayData[index]['uniqueID']}",
+                                        style: const TextStyle(fontSize: 16),
                                       ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
+                                      const SizedBox(height: 10),
                                       Text(
-                                        "Senders Name: ${pData[index]['sender']['name']}",
+                                        "Senders Name: ${displayData[index]['sender']['name']}",
                                         style: const TextStyle(
                                           fontSize: 16,
                                           color: Colors.grey,
@@ -114,7 +236,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
-                                        "Receiver Name: ${pData[index]['receiver']['name']}",
+                                        "Receiver Name: ${displayData[index]['receiver']['name']}",
                                         style: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.grey,

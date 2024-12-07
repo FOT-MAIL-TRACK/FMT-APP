@@ -150,18 +150,21 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Column(
                   children: [
-                    const SizedBox(height: 50),
+                    SizedBox(height: MediaQuery.of(context).size.height / 8),
                     Image.asset(
                       'assets/fmt.png',
-                      width: 200,
-                      height: 200,
+                      width: 150,
+                      height: 150,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 90),
                   ],
                 ),
                 const Text(
-                    "Please Enter Your Account Details to Sign in to the System"),
+                  "Please Enter Your Account Details to Sign in to the System",
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.normal),
+                ),
                 const SizedBox(height: 30),
                 TextField(
                   controller: _emailController,
@@ -185,20 +188,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: 120,
+                  width: 150,
                   height: 60,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                      backgroundColor: const Color.fromARGB(255, 236, 41, 41),
                       // Black button background
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero, // Square shape
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(20)), // Square shape
                       ),
                     ),
                     onPressed: _handleLogin,
                     child: const Text(
                       'Login',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
                     ),
                   ),
                 ),

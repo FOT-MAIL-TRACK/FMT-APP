@@ -281,14 +281,21 @@ class _TrackingLogState extends State<TrackingLog> {
                   Padding(
                     padding: const EdgeInsets.all(20.20),
                     child: Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: const Color.fromARGB(255, 116, 3, 3),
-                          backgroundColor:
-                              const Color.fromARGB(255, 229, 222, 221),
+                      child: SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor:
+                                const Color.fromARGB(255, 116, 3, 3),
+                            backgroundColor:
+                                const Color.fromARGB(255, 236, 41, 41),
+                          ),
+                          onPressed: _showUpdateDialog,
+                          child: const Text(
+                            'Update Tracking Log',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        onPressed: _showUpdateDialog,
-                        child: const Text('Update Tracking Log'),
                       ),
                     ),
                   )
