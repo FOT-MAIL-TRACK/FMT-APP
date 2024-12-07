@@ -20,27 +20,23 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: "3.13.9"  # Explicitly specify the latest version
+        flutter-version: "3.13.9"  # Specify Flutter version explicitly
 
     - name: Install Flutter dependencies
       run: flutter pub get
+      working-directory: ./fot_mail_track  # Update this path to the location of your `pubspec.yaml`
 
     - name: Run Flutter tests
       run: flutter test
+      working-directory: ./fot_mail_track  # Ensure the tests run in the correct directory
 
     - name: Build APK for Android
       run: flutter build apk --release
-
-    - name: Build iOS (macOS only)
-      if: runner.os == 'macOS'
-      run: flutter build ios --release
+      working-directory: ./fot_mail_track  # Ensure build happens in correct directory
 
     - name: Upload APK Artifact
       if: success()
       uses: actions/upload-artifact@v3
       with:
         name: release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-
-        name: release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: ./fot_mail_track/build/app/outputs/flutter-apk/app-release.apk
