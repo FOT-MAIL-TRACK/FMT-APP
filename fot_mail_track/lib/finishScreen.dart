@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fot_mail_track/services/auth_service.dart';
-import 'package:fot_mail_track/tracking_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class StatusScreen extends StatefulWidget {
-  const StatusScreen({super.key});
+class FinishScreen extends StatefulWidget {
+  const FinishScreen({super.key});
 
   @override
-  State<StatusScreen> createState() => _StatusScreenState();
+  State<FinishScreen> createState() => _FinishScreenState();
 }
 
-class _StatusScreenState extends State<StatusScreen> {
+class _FinishScreenState extends State<FinishScreen> {
   final AuthService _authService = AuthService();
   List<dynamic> pData = [];
   List<dynamic> LetterData = [];
@@ -24,39 +23,6 @@ class _StatusScreenState extends State<StatusScreen> {
     super.initState();
     _loadUserId();
   }
-
-  //Letter Fetch
-  // Future<String> _fetchLetters(String pickedDate) async {
-  //   if (userRegNo != null) {
-  //     try {
-  //       final fetchedData = await _authService.fetchLetters(userRegNo!);
-
-  //       if (fetchedData.isNotEmpty) {
-  //         int totLetters = fetchedData.length;
-  //         totLetters = totLetters - 1;
-  //         for (int i = 0; i <= totLetters; i++) {
-  //           LetterData = fetchedData;
-  //           DateTime date =
-  //               DateTime.parse(LetterData[i]['createdAt'].toString());
-  //           print(date.toString());
-  //           print(
-  //               "Letter Data ${i} is : ${LetterData[i]['createdAt'].toString()}");
-  //           String formattedDate =
-  //               "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
-  //           print("Long Text is : ${formattedDate}");
-  //           //Check the Equiality
-
-  //           if (pickedDate == formattedDate) {
-  //             //ToDo - Add only the filtered letters show logic.
-  //           }
-  //         }
-  //       }
-  //     } catch (error) {
-  //       print("Error fetching letters: $error");
-  //     }
-  //   }
-  //   return "Null";
-  // }
 
   Future<void> _fetchLetters(String pickedDate) async {
     if (userRegNo != null) {
@@ -131,7 +97,7 @@ class _StatusScreenState extends State<StatusScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Letters - "),
+        title: const Text("Finished - "),
         actions: [
           InkWell(onTap: _clearFilter, child: Text("Clear Filter")),
           const SizedBox(
@@ -168,7 +134,7 @@ class _StatusScreenState extends State<StatusScreen> {
                     // Update pData with the snapshot data
 
                     pData = snapshot.data
-                        .where((letter) => letter['status'] != 'Completed')
+                        .where((letter) => letter['status'] == 'Completed')
                         .toList();
                     // Determine which data to display
                     final displayData = isFiltered ? filteredData : pData;
@@ -184,17 +150,7 @@ class _StatusScreenState extends State<StatusScreen> {
                           itemCount: displayData.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TrackingLog(
-                                        LetterID: displayData[index]['_id'],
-                                        uniqueID: displayData[index]
-                                            ['uniqueID']),
-                                  ),
-                                );
-                              },
+                              onTap: () {},
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 8.0,

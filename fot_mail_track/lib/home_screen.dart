@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fot_mail_track/finishScreen.dart';
 import 'package:fot_mail_track/profilepage.dart';
 import 'package:fot_mail_track/status_screen.dart';
 import 'package:toast/toast.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       ],
     )),
-    // const QRscanner(),
+    const FinishScreen(),
     const StatusScreen(),
   ];
 
@@ -99,21 +100,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             label: 'Home',
           ),
-          // NavigationDestination(
-          //   selectedIcon: Image.asset(
-          //     'assets/qrscan.png',
-          //     width: 40,
-          //     height: 40,
-          //   ),
-          //   icon: Badge(
-          //     child: Image.asset(
-          //       'assets/qrscan.png',
-          //       width: 20,
-          //       height: 20,
-          //     ),
-          //   ),
-          //   label: 'QR Scan',
-          // ),
+          NavigationDestination(
+            selectedIcon: Image.asset(
+              'assets/finish.png',
+              width: 40,
+              height: 40,
+            ),
+            icon: Badge(
+              child: Image.asset(
+                'assets/finish.png',
+                width: 20,
+                height: 20,
+              ),
+            ),
+            label: 'Finished',
+          ),
           NavigationDestination(
             selectedIcon: Image.asset(
               'assets/status.png',
@@ -127,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 20,
               ),
             ),
-            label: 'Status',
+            label: 'In Progress',
           ),
         ],
       ),

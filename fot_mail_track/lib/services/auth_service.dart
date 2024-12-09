@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String baseUrl = 'http://192.168.51.218:5000/api/auth';
+  final String baseUrl = 'http://192.168.45.218:5000/api/auth';
 
   // Declare the _letters list to store fetched letter data
   List<Map<String, dynamic>> _letters = [];
